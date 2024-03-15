@@ -1,0 +1,4 @@
+.vscode/
+bin/game.js
+bin/game.js.lib
+node_modules/
