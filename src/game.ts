@@ -215,7 +215,7 @@ const transform19 = new Transform({
   scale: new Vector3(1.2, 1.2, 1.2)
 })
 jacketGirl.addComponentOrReplace(transform19)
-const gltfShape3 = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/girlnew.glb")
+const gltfShape3 = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding.glb")
 gltfShape3.withCollisions = true
 gltfShape3.isPointerBlocker = true
 gltfShape3.visible = true
@@ -363,11 +363,13 @@ const transform20 = new Transform({
   scale: new Vector3(1.1 , 1.1 , 1.1 )
 })
 boy.addComponentOrReplace(transform20)
-const gltfShape4 = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/girlnew.glb")
+const gltfShape4 = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyStanding.glb")
 gltfShape4.withCollisions = true
 gltfShape4.isPointerBlocker = true
 gltfShape4.visible = true
 boy.addComponentOrReplace(gltfShape4)
+
+
 
 // Function to send messages from boy to its Rasa server
 function send_message_boy(user_message){
@@ -422,8 +424,8 @@ function send_message_boy(user_message){
         myText.color = Color4.Black();
         myText.isPointerBlocker = false; // Allow interaction with underlying elements
           // Replace the GLTFShape of the boy entity
-          const newModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyNew1.glb");
-          boy.addComponentOrReplace(newModelShape);
+          // const newModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyTalking.glb");
+          // boy.addComponentOrReplace(newModelShape);
         
       } else {
         throw new Error("Invalid response format");
@@ -438,7 +440,7 @@ let chatInput: UIInputText;
 
 // Define the distance threshold for triggering the chat input
 const triggerDistance = 3; // Adjust this distance as needed
-
+let type=0;
 // Function to check distance between two positions
 function distance(pos1, pos2) {
     return Math.sqrt(
@@ -455,14 +457,20 @@ function checkProximity() {
 
     // Get boy entity's position
     const boyPosition = boy.getComponent(Transform).position;
-
+    const girlPosition=jacketGirl.getComponent(Transform).position
     // Calculate distance between player and boy entity
-    const dist = distance(playerPosition, boyPosition);
+    const distBoy = distance(playerPosition, boyPosition);
+    const distGirl = distance(playerPosition, girlPosition);
 
     // If player is within trigger distance, open chat input
-    if (dist <= triggerDistance) {
+    if (distBoy <= triggerDistance) {
         openChatInput();
+        type=0;
     }
+    if (distGirl <= triggerDistance) {
+      openChatInput();
+      type=1;
+  }
 
     // Schedule the next check
     setTimeout(checkProximity, 1000); // You can adjust the frequency of distance checks here
@@ -493,9 +501,18 @@ function openChatInput() {
 
         // Submit handler for chat input
         chatInput.onTextSubmit = new OnTextSubmit((text) => {
+          
+          if(type==0){
             send_message_boy(text.text);
-            const newModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyNew1.glb");
+            const newModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyTalking.glb");
             boy.addComponentOrReplace(newModelShape);
+          }
+          else if(type==1){
+            send_message_jacketGirl(text.text);
+            const newModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlTalking.glb");
+            jacketGirl.addComponentOrReplace(newModelShape);
+          }
+       
             setTimeout(revertToOriginalModel, 13000);
             chatInput.visible = false;
         });
@@ -507,6 +524,13 @@ function openChatInput() {
 
 // Function to revert to original model after chat input is closed
 function revertToOriginalModel() {
-    const originalModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/girlnew.glb");
+  if(type==0){
+    const originalModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyStanding.glb");
     boy.addComponentOrReplace(originalModelShape);
+  }
+  else{
+    const originalModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding.glb");
+    jacketGirl.addComponentOrReplace(originalModelShape);
+  }
+    
 };
