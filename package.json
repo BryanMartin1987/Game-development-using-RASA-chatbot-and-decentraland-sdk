@@ -12,13 +12,13 @@
   },
   "devDependencies": {
     "@types/node": "^20.4.9",
-    "decentraland-ecs": "latest"
+    "decentraland-ecs": "^6.12.3"
   },
   "dependencies": {
     "@dcl/react-ecs": "^7.3.7",
     "axios": "^1.4.0",
+    "decentraland": "^3.18.0",
     "decentraland-builder-scripts": "latest",
-    "decentraland-ecs": "latest",
     "decentraland-ui": "^4.3.0",
     "gtts": "^0.2.1",
     "node-gtts": "^2.0.2"
