@@ -316,43 +316,49 @@ jacketGirl.addComponent(
       textInput.visible = false
     })
   })
-);
+)
 
-// Create a button entity
-const linkButton = new Entity('linkButton');
-engine.addEntity(linkButton);
-linkButton.setParent(_scene);
-const transformLinkButton = new Transform({
-  position: new Vector3(10, 0, 10), // Adjust position as needed
-  rotation: Quaternion.Euler(0, 0, 0), // Set rotation if needed
-  scale: new Vector3(2, 1, 1), // Adjust scale as needed
+// const myCustomEntity = new Entity()
+// myCustomEntity.addComponent(new BoxShape())
+// const transformLink = new Transform({ 
+//   position: new Vector3(30.348119735717773, 0.5,34.5085334777832)
+// , })
+// myCustomEntity.addComponent(transformLink)
+// myCustomEntity.addComponent(
+//   new OnPointerDown(() => {
+//     openExternalURL("https://docs.decentraland.org")
+//   })
+// )
+// engine.addEntity(myCustomEntity)
+
+const myCustomEntity = new Entity();
+myCustomEntity.addComponent(new BoxShape());
+const transformLink = new Transform({ 
+  position: new Vector3(30.348119735717773, 0.5, 34.5085334777832)
 });
-linkButton.addComponentOrReplace(transformLinkButton);
-const linkButtonShape = new BoxShape();
-linkButton.addComponentOrReplace(linkButtonShape);
-const linkMaterial = new Material();
-linkMaterial.albedoColor = Color3.Blue(); // Set button color
-linkButton.addComponentOrReplace(linkMaterial);
+myCustomEntity.addComponent(transformLink);
 
-// Add click handler to the button entity
-linkButton.addComponent(
-  new OnClick(() => {
-    // Open the desired link in the user's browser
-    openExternalURL("https://example.com");
-  })
-);
+// Define an array of links
+const links = [
+  "https://docs.decentraland.org",
+  "https://example.com",
+  "https://www.openai.com"
+];
 
-const myCustomEntity = new Entity()
-myCustomEntity.addComponent(new BoxShape())
-const transformLink = new Transform({ position: new Vector3(4, 0, 4) })
-myCustomEntity.addComponent(transformLink)
+// Function to open a random link from the array
+function openRandomLink() {
+  const randomIndex = Math.floor(Math.random() * links.length);
+  openExternalURL(links[randomIndex]);
+}
+
+// Add click event listener to open a random link
 myCustomEntity.addComponent(
   new OnPointerDown(() => {
-    openExternalURL("https://docs.decentraland.org")
+    openRandomLink();
   })
-)
-engine.addEntity(myCustomEntity)
+);
 
+engine.addEntity(myCustomEntity);
 
 const boy = new Entity('boy')
 engine.addEntity(boy)
@@ -439,7 +445,7 @@ let chatInput: UIInputText;
 
 
 // Define the distance threshold for triggering the chat input
-const triggerDistance = 3; // Adjust this distance as needed
+const triggerDistance = 2; // Adjust this distance as needed
 let type=0;
 // Function to check distance between two positions
 function distance(pos1, pos2) {
