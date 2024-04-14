@@ -318,47 +318,71 @@ jacketGirl.addComponent(
   })
 )
 
-// const myCustomEntity = new Entity()
-// myCustomEntity.addComponent(new BoxShape())
+
+
+// const myCustomEntity = new Entity();
+// myCustomEntity.addComponent(new BoxShape());
 // const transformLink = new Transform({ 
-//   position: new Vector3(30.348119735717773, 0.5,34.5085334777832)
-// , })
-// myCustomEntity.addComponent(transformLink)
+//   position: new Vector3(30.348119735717773, 0.5, 34.5085334777832)
+// });
+// myCustomEntity.addComponent(transformLink);
+
+// // Define an array of links
+// const links = [
+//   "https://docs.decentraland.org",
+//   "https://example.com",
+//   "https://www.openai.com"
+// ];
+
+// // Function to open a random link from the array
+// function openRandomLink() {
+//   const randomIndex = Math.floor(Math.random() * links.length);
+//   openExternalURL(links[randomIndex]);
+// }
+
+// // Add click event listener to open a random link
 // myCustomEntity.addComponent(
 //   new OnPointerDown(() => {
-//     openExternalURL("https://docs.decentraland.org")
+//     openRandomLink();
 //   })
-// )
-// engine.addEntity(myCustomEntity)
+// );
 
-const myCustomEntity = new Entity();
-myCustomEntity.addComponent(new BoxShape());
-const transformLink = new Transform({ 
-  position: new Vector3(30.348119735717773, 0.5, 34.5085334777832)
-});
-myCustomEntity.addComponent(transformLink);
+// engine.addEntity(myCustomEntity);
 
-// Define an array of links
-const links = [
-  "https://docs.decentraland.org",
-  "https://example.com",
-  "https://www.openai.com"
-];
 
-// Function to open a random link from the array
-function openRandomLink() {
-  const randomIndex = Math.floor(Math.random() * links.length);
-  openExternalURL(links[randomIndex]);
-}
+const myVideoClip = new VideoClip(
+	'https://player.vimeo.com/external/552481870.m3u8?s=c312c8533f97e808fccc92b0510b085c8122a875'
+)
 
-// Add click event listener to open a random link
-myCustomEntity.addComponent(
-  new OnPointerDown(() => {
-    openRandomLink();
-  })
-);
+// #2
+const myVideoTexture = new VideoTexture(myVideoClip)
 
-engine.addEntity(myCustomEntity);
+// #3
+const myMaterial = new Material()
+myMaterial.albedoTexture = myVideoTexture
+myMaterial.roughness = 1
+myMaterial.specularIntensity = 0
+myMaterial.metallic = 0
+
+// #4
+const screen = new Entity()
+screen.addComponent(new PlaneShape())
+screen.addComponent(
+	new Transform({
+		position: new Vector3(30.348119735717773, 2.0, 25.5085334777832),
+    scale: new Vector3(4, 2, 4),
+	})
+)
+screen.addComponent(myMaterial)
+screen.addComponent(
+	new OnPointerDown(() => {
+		myVideoTexture.playing = !myVideoTexture.playing
+	})
+)
+engine.addEntity(screen)
+
+// #5
+myVideoTexture.play()
 
 const boy = new Entity('boy')
 engine.addEntity(boy)
