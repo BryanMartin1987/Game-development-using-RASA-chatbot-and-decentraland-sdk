@@ -215,7 +215,7 @@ const transform19 = new Transform({
   scale: new Vector3(1.2, 1.2, 1.2)
 })
 jacketGirl.addComponentOrReplace(transform19)
-const gltfShape3 = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding.glb")
+const gltfShape3 = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding2.glb")
 gltfShape3.withCollisions = true
 gltfShape3.isPointerBlocker = true
 gltfShape3.visible = true
@@ -348,41 +348,48 @@ jacketGirl.addComponent(
 // );
 
 // engine.addEntity(myCustomEntity);
+//'videos/myVideo.mp3'
+//https://player.vimeo.com/external/552481870.m3u8?s=c312c8533f97e808fccc92b0510b085c8122a875
+const localVideoPath = 'video/sampleVideo.mp4'; // Adjust the path as needed
 
 
-const myVideoClip = new VideoClip(
-	'https://player.vimeo.com/external/552481870.m3u8?s=c312c8533f97e808fccc92b0510b085c8122a875'
-)
+const myVideoClip = new VideoClip(localVideoPath);
 
-// #2
-const myVideoTexture = new VideoTexture(myVideoClip)
+const myVideoTexture = new VideoTexture(myVideoClip);
 
-// #3
-const myMaterial = new Material()
-myMaterial.albedoTexture = myVideoTexture
-myMaterial.roughness = 1
-myMaterial.specularIntensity = 0
-myMaterial.metallic = 0
+const myMaterial = new Material();
+myMaterial.albedoTexture = myVideoTexture;
+myMaterial.roughness = 1;
+myMaterial.specularIntensity = 0;
+myMaterial.metallic = 0;
 
-// #4
-const screen = new Entity()
-screen.addComponent(new PlaneShape())
+const screen = new Entity();
+screen.addComponent(new PlaneShape());
 screen.addComponent(
-	new Transform({
-		position: new Vector3(30.348119735717773, 2.0, 25.5085334777832),
-    scale: new Vector3(4, 2, 4),
-	})
-)
-screen.addComponent(myMaterial)
-screen.addComponent(
-	new OnPointerDown(() => {
-		myVideoTexture.playing = !myVideoTexture.playing
-	})
-)
-engine.addEntity(screen)
+    new Transform({
+        position: new Vector3(30.348119735717773, 2.0, 25.5085334777832),
+        scale: new Vector3(4, 2, 4),
+    })
+);
+screen.addComponent(myMaterial);
 
-// #5
-myVideoTexture.play()
+// Automatically start playing the video after a short delay (e.g., 1 second)
+setTimeout(() => {
+    myVideoTexture.play();
+}, 3000); // Adjust the delay (in milliseconds) as needed
+
+// Toggle video playback on click (play/pause interaction)
+screen.addComponent(
+    new OnPointerDown(() => {
+        if (myVideoTexture.playing) {
+            myVideoTexture.pause();
+        } else {
+            myVideoTexture.play();
+        }
+    })
+);
+
+engine.addEntity(screen);
 
 const boy = new Entity('boy')
 engine.addEntity(boy)
@@ -559,7 +566,7 @@ function revertToOriginalModel() {
     boy.addComponentOrReplace(originalModelShape);
   }
   else{
-    const originalModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding.glb");
+    const originalModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding2.glb");
     jacketGirl.addComponentOrReplace(originalModelShape);
   }
     
