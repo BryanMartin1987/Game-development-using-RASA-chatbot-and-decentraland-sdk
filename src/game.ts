@@ -373,11 +373,6 @@ screen.addComponent(
 );
 screen.addComponent(myMaterial);
 
-// Automatically start playing the video after a short delay (e.g., 1 second)
-setTimeout(() => {
-    myVideoTexture.play();
-}, 3000); // Adjust the delay (in milliseconds) as needed
-
 // Toggle video playback on click (play/pause interaction)
 screen.addComponent(
     new OnPointerDown(() => {
@@ -487,19 +482,12 @@ function distance(pos1, pos2) {
     );
 }
 
-// Function to constantly check player's distance to the boy entity and trigger chat input if within range
 function checkProximity() {
-    // Get player's position
     const playerPosition = Camera.instance.position;
-
-    // Get boy entity's position
     const boyPosition = boy.getComponent(Transform).position;
     const girlPosition=jacketGirl.getComponent(Transform).position
-    // Calculate distance between player and boy entity
     const distBoy = distance(playerPosition, boyPosition);
     const distGirl = distance(playerPosition, girlPosition);
-
-    // If player is within trigger distance, open chat input
     if (distBoy <= triggerDistance) {
         openChatInput();
         type=0;
@@ -507,14 +495,28 @@ function checkProximity() {
     if (distGirl <= triggerDistance) {
       openChatInput();
       type=1;
-  }
-
-    // Schedule the next check
-    setTimeout(checkProximity, 1000); // You can adjust the frequency of distance checks here
+    }
+    else {
+        if (chatInput) {
+            chatInput.visible = false;
+        }
+    }
+    setTimeout(checkProximity, 1000); 
 }
 
-// Call the proximity check function to start checking distance
 checkProximity();
+
+chatInput = new UIInputText(canvas);
+chatInput.visible = false
+
+chatInput.width = "80%";
+chatInput.height = "25px";
+chatInput.vAlign = "bottom";
+chatInput.vTextAlign = "bottom";
+chatInput.hAlign = "center";
+chatInput.fontSize = 20;
+chatInput.placeholder = "Type your message here...";
+chatInput.isPointerBlocker = true;
 
 // Function to open the chat input
 function openChatInput() {
@@ -524,16 +526,8 @@ function openChatInput() {
     // Create a new UI canvas for chat input if not already created
     if (!chatInput) {
         const canvas = new UICanvas();
-
-        chatInput = new UIInputText(canvas);
-        chatInput.width = "80%";
-        chatInput.height = "25px";
-        chatInput.vAlign = "bottom";
-        chatInput.vTextAlign = "bottom";
-        chatInput.hAlign = "center";
-        chatInput.fontSize = 20;
-        chatInput.placeholder = "Type your message here...";
-        chatInput.isPointerBlocker = true;
+        
+        
         chatInput.visible = true;
 
         // Submit handler for chat input
@@ -554,8 +548,8 @@ function openChatInput() {
             chatInput.visible = false;
         });
     } else {
-        // Show chat input if already created
-        chatInput.visible = true;
+          
+          chatInput.visible = true;
     }
 };
 
