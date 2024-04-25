@@ -278,8 +278,11 @@ function send_message_jacketGirl(user_message){
         myText.vAlign = "bottom";
 
         myText.color = Color4.Black();
-        myText.isPointerBlocker = false; // Allow interaction with underlying elements
         
+        myText.isPointerBlocker = false; // Allow interaction with underlying elements
+        chatInput.visible = false;
+        const newModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlTalking.glb");
+        jacketGirl.addComponentOrReplace(newModelShape);
       } else {
         throw new Error("Invalid response format");
       }
@@ -317,42 +320,7 @@ jacketGirl.addComponent(
     })
   })
 )
-
-
-
-// const myCustomEntity = new Entity();
-// myCustomEntity.addComponent(new BoxShape());
-// const transformLink = new Transform({ 
-//   position: new Vector3(30.348119735717773, 0.5, 34.5085334777832)
-// });
-// myCustomEntity.addComponent(transformLink);
-
-// // Define an array of links
-// const links = [
-//   "https://docs.decentraland.org",
-//   "https://example.com",
-//   "https://www.openai.com"
-// ];
-
-// // Function to open a random link from the array
-// function openRandomLink() {
-//   const randomIndex = Math.floor(Math.random() * links.length);
-//   openExternalURL(links[randomIndex]);
-// }
-
-// // Add click event listener to open a random link
-// myCustomEntity.addComponent(
-//   new OnPointerDown(() => {
-//     openRandomLink();
-//   })
-// );
-
-// engine.addEntity(myCustomEntity);
-//'videos/myVideo.mp3'
-//https://player.vimeo.com/external/552481870.m3u8?s=c312c8533f97e808fccc92b0510b085c8122a875
-const localVideoPath = 'video/sampleVideo.mp4'; // Adjust the path as needed
-
-
+const localVideoPath = 'video/sampleVideo.mp4';
 const myVideoClip = new VideoClip(localVideoPath);
 
 const myVideoTexture = new VideoTexture(myVideoClip);
@@ -374,9 +342,9 @@ screen.addComponent(
 screen.addComponent(myMaterial);
 
 // Automatically start playing the video after a short delay (e.g., 1 second)
-setTimeout(() => {
-    myVideoTexture.play();
-}, 3000); // Adjust the delay (in milliseconds) as needed
+// setTimeout(() => {
+//     myVideoTexture.play();
+// }, 3000); // Adjust the delay (in milliseconds) as needed
 
 // Toggle video playback on click (play/pause interaction)
 screen.addComponent(
@@ -443,7 +411,14 @@ function send_message_boy(user_message){
           result += response_message.substr(i, 135) + '\n';
         }
 
+
+
+
         response_message = result
+
+
+
+
         container.visible = true;
         container.vAlign = "bottom";
         container.hAlign = "center";
@@ -453,16 +428,19 @@ function send_message_boy(user_message){
         container.color = Color4.White();
 
         myText.value = "Plácido:--> " + response_message;
+        
         myText.font = new Font(Fonts.SansSerif_Bold);
         myText.fontSize = 20;
         myText.hAlign = "left";
         myText.vAlign = "bottom";
 
         myText.color = Color4.Black();
-        myText.isPointerBlocker = false; // Allow interaction with underlying elements
-          // Replace the GLTFShape of the boy entity
-          // const newModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyTalking.glb");
-          // boy.addComponentOrReplace(newModelShape);
+        myText.isPointerBlocker = false; 
+        
+            chatInput.visible = false;
+            const newModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyTalking.glb");
+            boy.addComponentOrReplace(newModelShape);
+
         
       } else {
         throw new Error("Invalid response format");
@@ -472,12 +450,20 @@ function send_message_boy(user_message){
       throw new Error(error);
     });
 }
-let chatInput: UIInputText;
-
+        let chatInput = new UIInputText(canvas);
+        chatInput.width = "80%";
+        chatInput.height = "25px";
+        chatInput.vAlign = "bottom";
+        chatInput.vTextAlign = "bottom";
+        chatInput.hAlign = "center";
+        chatInput.fontSize = 20;
+        chatInput.placeholder = "Type your message here...";
+        chatInput.isPointerBlocker = true;
+        chatInput.visible=false;
 
 // Define the distance threshold for triggering the chat input
-const triggerDistance = 2; // Adjust this distance as needed
-let type=0;
+const triggerDistance = 3; // Adjust this distance as needed
+let type=-1;
 // Function to check distance between two positions
 function distance(pos1, pos2) {
     return Math.sqrt(
@@ -490,6 +476,7 @@ function distance(pos1, pos2) {
 // Function to constantly check player's distance to the boy entity and trigger chat input if within range
 function checkProximity() {
     // Get player's position
+    //chatInput = new UIInputText(canvas);
     const playerPosition = Camera.instance.position;
 
     // Get boy entity's position
@@ -500,13 +487,18 @@ function checkProximity() {
     const distGirl = distance(playerPosition, girlPosition);
 
     // If player is within trigger distance, open chat input
-    if (distBoy <= triggerDistance) {
-        openChatInput();
-        type=0;
-    }
+    
     if (distGirl <= triggerDistance) {
-      openChatInput();
       type=1;
+      openChatInput();
+    }
+    if (distBoy <= triggerDistance) {
+      type=0;
+      openChatInput();
+    }
+    
+  else if(distBoy >= triggerDistance && distGirl >= triggerDistance){
+    chatInput.visible=false;
   }
 
     // Schedule the next check
@@ -519,51 +511,38 @@ checkProximity();
 // Function to open the chat input
 function openChatInput() {
     // Hide any existing chat container
-    container.visible = false;
-
-    // Create a new UI canvas for chat input if not already created
-    if (!chatInput) {
-        const canvas = new UICanvas();
-
-        chatInput = new UIInputText(canvas);
-        chatInput.width = "80%";
-        chatInput.height = "25px";
-        chatInput.vAlign = "bottom";
-        chatInput.vTextAlign = "bottom";
-        chatInput.hAlign = "center";
-        chatInput.fontSize = 20;
-        chatInput.placeholder = "Type your message here...";
-        chatInput.isPointerBlocker = true;
-        chatInput.visible = true;
+      //container.visible = false;
+      chatInput.visible = true;
 
         // Submit handler for chat input
         chatInput.onTextSubmit = new OnTextSubmit((text) => {
           
           if(type==0){
             send_message_boy(text.text);
-            const newModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyTalking.glb");
-            boy.addComponentOrReplace(newModelShape);
+            // chatInput.visible = false;
+            // const newModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyTalking.glb");
+            // boy.addComponentOrReplace(newModelShape);
           }
-          else if(type==1){
+          if(type==1){
             send_message_jacketGirl(text.text);
-            const newModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlTalking.glb");
-            jacketGirl.addComponentOrReplace(newModelShape);
+            // chatInput.visible = false;
+            // const newModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlTalking.glb");
+            // jacketGirl.addComponentOrReplace(newModelShape);
           }
        
-            setTimeout(revertToOriginalModel, 13000);
-            chatInput.visible = false;
+            setTimeout(revertToOriginalModel, 10000);
+            //chatInput.visible = false;
         });
-    } else {
-        // Show chat input if already created
-        chatInput.visible = true;
-    }
+
 };
 
 // Function to revert to original model after chat input is closed
 function revertToOriginalModel() {
+  container.visible=false;
   if(type==0){
     const originalModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyStanding.glb");
     boy.addComponentOrReplace(originalModelShape);
+    
   }
   else{
     const originalModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding2.glb");
