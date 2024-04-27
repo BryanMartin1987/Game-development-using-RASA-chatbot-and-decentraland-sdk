@@ -197,7 +197,7 @@ decentraland.setParent(_scene)
 const transform18 = new Transform({
   position: new Vector3(32, 0.5319271087646484, 32),
   rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(0.055347442626953125, 0.055347442626953125, 0.055347442626953125)
+  scale: new Vector3(0.055347442626953125, 0.045347442626953125, 0.055347442626953125)
 })
 decentraland.addComponentOrReplace(transform18)
 const gltfShape2 = new GLTFShape("315cd251-7a6f-4121-90d6-7feabefa6854/Decentraland.glb")
@@ -212,7 +212,7 @@ jacketGirl.setParent(_scene)
 const transform19 = new Transform({
   position: new Vector3(34.50403594970703, 0.525507926940918, 26.74717903137207),
   rotation: new Quaternion(-1.0406950530687263e-16, 0.17099952697753906, -2.0384728571798405e-8, -0.985271155834198),
-  scale: new Vector3(1.2, 1.2, 1.2)
+  scale: new Vector3(1, 1.11 ,1)
 })
 jacketGirl.addComponentOrReplace(transform19)
 const gltfShape3 = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding2.glb")
@@ -365,7 +365,7 @@ boy.setParent(_scene)
 const transform20 = new Transform({
   position: new Vector3(29.348119735717773, 0.5357363224029541, 35.5085334777832),
   rotation: new Quaternion(-3.0528475611319794e-16, -0.45175689458847046, 5.38536077954177e-8, -0.8921411037445068),
-  scale: new Vector3(1.1 , 1.1 , 1.1 )
+  scale: new Vector3(1 , 0.92 , 1 )
 })
 boy.addComponentOrReplace(transform20)
 const gltfShape4 = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyStanding.glb")
