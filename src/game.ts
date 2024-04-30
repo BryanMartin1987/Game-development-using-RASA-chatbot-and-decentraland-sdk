@@ -212,10 +212,10 @@ jacketGirl.setParent(_scene)
 const transform19 = new Transform({
   position: new Vector3(34.50403594970703, 0.525507926940918, 26.74717903137207),
   rotation: new Quaternion(-1.0406950530687263e-16, 0.17099952697753906, -2.0384728571798405e-8, -0.985271155834198),
-  scale: new Vector3(1, 1.11 ,1)
+  scale: new Vector3(1.2, 1.11 ,1)
 })
 jacketGirl.addComponentOrReplace(transform19)
-const gltfShape3 = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding2.glb")
+const gltfShape3 = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/JacketGirlStanding.glb")
 gltfShape3.withCollisions = true
 gltfShape3.isPointerBlocker = true
 gltfShape3.visible = true
@@ -281,7 +281,7 @@ function send_message_jacketGirl(user_message){
         
         myText.isPointerBlocker = false; // Allow interaction with underlying elements
         chatInput.visible = false;
-        const newModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlTalking.glb");
+        const newModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/JacketGirlTalking.glb");
         jacketGirl.addComponentOrReplace(newModelShape);
       } else {
         throw new Error("Invalid response format");
@@ -335,16 +335,15 @@ const screen = new Entity();
 screen.addComponent(new PlaneShape());
 screen.addComponent(
     new Transform({
-        position: new Vector3(30.348119735717773, 2.0, 25.5085334777832),
-        scale: new Vector3(4, 2, 4),
+     
+        position: new Vector3(49.8, 0.5, 31.6),
+        rotation: new Quaternion(-3.0528475611319794e-16, 0.90175689458847046, 5.38536077954177e-8, -0.8921411037445068),
+        scale: new Vector3(8, 8.5, 4),
     })
 );
 screen.addComponent(myMaterial);
 
-// Automatically start playing the video after a short delay (e.g., 1 second)
-// setTimeout(() => {
-//     myVideoTexture.play();
-// }, 3000); // Adjust the delay (in milliseconds) as needed
+
 
 // Toggle video playback on click (play/pause interaction)
 screen.addComponent(
@@ -368,7 +367,7 @@ const transform20 = new Transform({
   scale: new Vector3(1 , 0.92 , 1 )
 })
 boy.addComponentOrReplace(transform20)
-const gltfShape4 = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyStanding.glb")
+const gltfShape4 = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyStanding1.glb")
 gltfShape4.withCollisions = true
 gltfShape4.isPointerBlocker = true
 gltfShape4.visible = true
@@ -540,12 +539,12 @@ function openChatInput() {
 function revertToOriginalModel() {
   container.visible=false;
   if(type==0){
-    const originalModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyStanding.glb");
+    const originalModelShape = new GLTFShape("b52b9559-d38c-4731-af84-b75e6e83a5e2/BoyStanding1.glb");
     boy.addComponentOrReplace(originalModelShape);
     
   }
   else{
-    const originalModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/GirlStanding2.glb");
+    const originalModelShape = new GLTFShape("dd4da704-249c-48ba-907e-f70f76d83ee1/JacketGirlStanding.glb");
     jacketGirl.addComponentOrReplace(originalModelShape);
   }
     
